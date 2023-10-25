@@ -1,0 +1,15 @@
+{
+  "name": "web-rtc-signaling-server",
+  "version": "1.0.0",
+  "description": "Signaling server for web rtc protocol",
+  "main": "index.js",
+  "repository": "https://github.com/DMdeveloppement/web-rtc-signaling-server.git",
+  "author": "Dugas Marc <admin@dmdev.fr>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "socket.io": "^4.7.2"
+  }
+}
