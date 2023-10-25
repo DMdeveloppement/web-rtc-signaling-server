@@ -69,7 +69,8 @@ io.on("connection", (socket) => {
 });
 
 const PORT = process.env.PORT || 3001;
-httpServer.listen(PORT, () => {
+const HOST = process.env.HOST || "0.0.0.0";
+httpServer.listen(PORT, HOST, () => {
   console.log(httpServer.address());
   console.log(`Socket.io server is running on port ${PORT}`);
 });
