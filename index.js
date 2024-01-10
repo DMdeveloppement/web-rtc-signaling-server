@@ -8,7 +8,7 @@ const io = new Server(httpServer, {
   transports: ["websocket", "polling"],
   // path: "/",
   cors: {
-    //origin: "*", // Replace with your frontend URL
+    origin: "**", // Replace with your frontend URL
     methods: ["GET", "POST"],
     //allowedHeaders: ["my-custom-header"],
     credentials: false,
@@ -24,7 +24,6 @@ io.on("connection", (socket) => {
     const { rooms } = io.sockets.adapter;
     const room = rooms.get(roomName);
 
-    console.log(rooms);
     console.log("room", room);
 
     // room == undefined when no such room exists.
@@ -39,6 +38,17 @@ io.on("connection", (socket) => {
       // when there are already two people inside the room.
       socket.emit("full");
     }
+
+    console.log(rooms);
+
+    socket.on("disconnect", () => {
+      console.log("disconnect", roomName);
+      socket.broadcast.to(roomName).emit("leave");
+    });
+  });
+
+  socket.on("is-parent", (roomName) => {
+    socket.broadcast.to(roomName).emit("is-parent");
   });
 
   // Triggered when the person who joined the room is ready to communicate.
@@ -50,6 +60,11 @@ io.on("connection", (socket) => {
   socket.on("ice-candidate", (candidate, roomName) => {
     console.log(candidate);
     socket.broadcast.to(roomName).emit("ice-candidate", candidate); // Sends Candidate to the other peer in the room.
+  });
+
+  // Triggered when server gets an description from a peer in the room.
+  socket.on("description", (description, roomName) => {
+    socket.broadcast.to(roomName).emit("description", description); // Sends Candidate to the other peer in the room.
   });
 
   // Triggered when server gets an offer from a peer in the room.
