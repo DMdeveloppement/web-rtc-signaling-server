@@ -8,7 +8,7 @@ const io = new Server(httpServer, {
   transports: ["websocket", "polling"],
   // path: "/",
   cors: {
-    origin: "**", // Replace with your frontend URL
+    origin: "*", // Replace with your frontend URL
     methods: ["GET", "POST"],
     //allowedHeaders: ["my-custom-header"],
     credentials: false,
